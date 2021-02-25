@@ -18,7 +18,7 @@ h1, h2 {
   margin: auto;
   width: 150px;
   display: block;
-  margin-top: 140px;
+  
 }
 div:hover {
     border:  2px solid black;
