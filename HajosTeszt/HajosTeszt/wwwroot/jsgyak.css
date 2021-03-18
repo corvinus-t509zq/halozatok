@@ -1,0 +1,33 @@
+﻿body {
+}
+.sor {
+    display: flex;
+    flex-direction: row;
+}
+
+.elem {
+    height: 30px;
+    width: 30px;
+}
+#feladat1 {
+    display: flex;
+    flex-direction: row;
+}
+#divid{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.pascalsor {
+   font-size: 20px;
+   background-color: lightcoral;
+   justify-content: center;
+   display: flex;
+   flex-direction: row;
+   text-align: center;
+}
+.pascalelemclass {
+    width: 50px;
+    height: 50px;
+    background-color: lightgreen;
+}
