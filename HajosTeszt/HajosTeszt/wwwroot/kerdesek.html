@@ -10,7 +10,11 @@
         fetch('/questions/all')
             .then(response => response.json())
             .then(data => kiiratas(data));
+        //fetch('/questions/4')
+        //    .then(response => response.json())
+        //    .then(data => Kérdésmegjelenítés2(data));
 
+     
         function kiiratas(lista) {
             //console.log(lista)
             for (var i = 0; i < lista.length; i++) {

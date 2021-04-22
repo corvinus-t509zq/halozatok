@@ -67,12 +67,14 @@ div {
         color: white;
     }
 
-#jo {
+.jo {
     background-color: green;
+    color: blue;
 }
 
-#rossz {
+.rossz {
     background-color: red;
+    color: yellow;
 }
 .kerdes {
     padding: 20px;
