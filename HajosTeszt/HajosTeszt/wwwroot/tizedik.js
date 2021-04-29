@@ -10,19 +10,22 @@ var quesetionsInHostList = 3;
 var displayedQuestion;
 var numberOfQuestions;
 var nextQuestion = 1;
-
+var timeoutHandler;
 
 window.onload = function abc() {
     fetch('/questions/1')
         .then(response => response.json())
         .then(data => letöltésbefejeződött(data));
+   
 }
 
 function letöltésbefejeződött(d) {
     console.log(d)
+    console.log("asdasd");
     kérdés = d;
     //console.log(kérdés.questionText);
-    kérdésBetöltés(kérdésszám);
+    //kérdésBetöltés(kérdésszám);
+    init();
 }
 
 //function Kérdésmegjelenítés(kérdésszám) {
@@ -44,29 +47,11 @@ function letöltésbefejeződött(d) {
 
 //}
 
-function kérdésBetöltés(questionNumber, destination) {
-    fetch(`/questions/${questionNumber}`)
-        .then(response => {
-            if (!response.ok) {
-                console.error(`Hibás letöltés: ${response.status}`)
-            }
-            else {
-                return response.json()
-            }
-        })
-        .then(q => {
-            hotList[destination].question = q;
-            hotList[destination].goodAnswers = 0;
-            console.log(`A ${questionNumber}. kérdés letöltve a hot list ${destination}. helyére`)
-        }
-            );
-}
-
 function init() {
     for (var i = 0; i < quesetionsInHostList; i++) {
         let q = {
             question: {},
-            goodAnswers : 0
+            goodAnswers: 0
         }
         hotList[i] = q;
     }
@@ -75,9 +60,33 @@ function init() {
         nextQuestion++;
     }
 }
+function kérdésBetöltés(questionNumber, destination) {
+    fetch(`/questions/${questionNumber}`)
+        .then(
+            result => {
+            if (!result.ok) {
+                console.error(`Hibás letöltés: ${response.status}`)
+            }
+            else {
+                return result.json()
+            }
+        })
+        .then(q => {
+            hotList[destination].question = q;
+            hotList[destination].goodAnswers = 0;
+            console.log(`A ${questionNumber}. kérdés letöltve a hot list ${destination}. helyére`)
+            if (displayedQuestion == undefined && destination == 0) { 
+                displayedQuestion = 0;
+                KérdésMegjelenítés2();
+            }
+        }
+            );
+}
 
-function KérdésMegjelenítés2(kérdés) {
-    console.log(kérdés);
+
+function KérdésMegjelenítés2() {
+    let kérdés = hotList[displayedQuestion].question;
+    //console.log("kérdés : "+kérdés);
     //console.log(kérdés.questionText);
     aktuáliskérdés = kérdés;
     document.getElementById("kérdés_szöveg").innerText = kérdés.questionText;
@@ -99,34 +108,65 @@ function KérdésMegjelenítés2(kérdés) {
     a2 = document.getElementById("válasz2")
     a3 = document.getElementById("válasz3")
 }
+
 function válasz1onclick() {
     //console.log(aktuáliskérdés.questionText);
     //console.log(aktuáliskérdés.correctAnswer);
-
+    document.getElementById(`válasz3`).style.pointerEvents = "none";
+    document.getElementById(`válasz1`).style.pointerEvents = "none";
+    document.getElementById(`válasz2`).style.pointerEvents = "none";
     if (aktuáliskérdés.correctAnswer == 1) {
 
         a1.style.backgroundColor = "green";
+        timeoutHandler = setTimeout(előre, 3000);
+        hotList[displayedQuestion].goodAnswers++;
+        if (hotList[displayedQuestion].goodAnswers == 3) {
+            kérdésBetöltés(nextQuestion, displayedQuestion)
+            nextQuestion++;
+        }
     }
     else {
         a1.style.backgroundColor = "red";
+        timeoutHandler = setTimeout(előre, 3000);
+        hotList[displayedQuestion].goodAnswers = 0;
     }
 }
 function válasz2onclick() {
-
+    document.getElementById(`válasz3`).style.pointerEvents = "none";
+    document.getElementById(`válasz1`).style.pointerEvents = "none";
+    document.getElementById(`válasz2`).style.pointerEvents = "none";
     if (aktuáliskérdés.correctAnswer == 2) {
         a2.style.backgroundColor = "green";
+        timeoutHandler = setTimeout(előre, 3000);
+        hotList[displayedQuestion].goodAnswers++;
+        if (hotList[displayedQuestion].goodAnswers == 3) {
+            kérdésBetöltés(nextQuestion, displayedQuestion)
+            nextQuestion++;
+        }
     }
     else {
         a2.style.backgroundColor = "red";
+        timeoutHandler = setTimeout(előre, 3000);
+        hotList[displayedQuestion].goodAnswers = 0;
     }
 }
 function válasz3onclick() {
-
+    document.getElementById(`válasz3`).style.pointerEvents = "none";
+    document.getElementById(`válasz1`).style.pointerEvents = "none";
+    document.getElementById(`válasz2`).style.pointerEvents = "none";
     if (aktuáliskérdés.correctAnswer == 3) {
         a3.style.backgroundColor = "green";
+        timeoutHandler = setTimeout(előre, 3000);
+        hotList[displayedQuestion].goodAnswers++;
+        if (hotList[displayedQuestion].goodAnswers == 3) {
+            kérdésBetöltés(nextQuestion, displayedQuestion)
+            nextQuestion++;
+        }
     }
     else {
         a3.style.backgroundColor = "red";
+        timeoutHandler = setTimeout(előre, 3000);
+        hotList[displayedQuestion].goodAnswers = 0;
     }
 }
 
@@ -140,12 +180,21 @@ function előre() {
     //    kérdésszám++;
     //}
 
-    kérdésszám += 1;
+   // kérdésszám += 1;
+    clearTimeout(timeoutHandler);
+    displayedQuestion++;
+    if (displayedQuestion == quesetionsInHostList) {
+        displayedQuestion = 0;
+    }
+    KérdésMegjelenítés2();
     //console.log(kérdésszám)
-    kérdésBetöltés(kérdésszám);
+   // kérdésBetöltés(kérdésszám);
     a1.style.backgroundColor = "cornflowerblue";
     a2.style.backgroundColor = "cornflowerblue";
     a3.style.backgroundColor = "cornflowerblue";
+    document.getElementById(`válasz3`).style.pointerEvents = "auto";
+    document.getElementById(`válasz1`).style.pointerEvents = "auto";
+    document.getElementById(`válasz2`).style.pointerEvents = "auto";
 }
 function vissza() {
     // console.log(kérdések.length);
@@ -162,4 +211,7 @@ function vissza() {
     a1.style.backgroundColor = "cornflowerblue";
     a2.style.backgroundColor = "cornflowerblue";
     a3.style.backgroundColor = "cornflowerblue";
+    document.getElementById(`válasz3`).style.pointerEvents = "auto";
+    document.getElementById(`válasz1`).style.pointerEvents = "auto";
+    document.getElementById(`válasz2`).style.pointerEvents = "auto";
 }

@@ -13,6 +13,7 @@ window.onload = function abc() {
 
 function letöltésbefejeződött(d) {
     console.log(d)
+    
     kérdés = d;
     //console.log(kérdés.questionText);
     kérdésBetöltés(kérdésszám);
@@ -48,7 +49,7 @@ function kérdésBetöltés(id) {
             }
         })
         .then(data => KérdésMegjelenítés2(data));
-}    
+}
 function KérdésMegjelenítés2(kérdés) {
     console.log(kérdés);
     //console.log(kérdés.questionText);
@@ -57,7 +58,7 @@ function KérdésMegjelenítés2(kérdés) {
     document.getElementById("válasz1").innerText = kérdés.answer1;
     document.getElementById("válasz2").innerText = kérdés.answer2;
     document.getElementById("válasz3").innerText = kérdés.answer3;
-   
+
     //console.log(kérdés.image.length);
     document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
 
@@ -75,9 +76,9 @@ function KérdésMegjelenítés2(kérdés) {
 function válasz1onclick() {
     //console.log(aktuáliskérdés.questionText);
     //console.log(aktuáliskérdés.correctAnswer);
-   
+
     if (aktuáliskérdés.correctAnswer == 1) {
-        
+
         a1.style.backgroundColor = "green";
     }
     else {
@@ -85,7 +86,7 @@ function válasz1onclick() {
     }
 }
 function válasz2onclick() {
-    
+
     if (aktuáliskérdés.correctAnswer == 2) {
         a2.style.backgroundColor = "green";
     }
@@ -94,7 +95,7 @@ function válasz2onclick() {
     }
 }
 function válasz3onclick() {
-   
+
     if (aktuáliskérdés.correctAnswer == 3) {
         a3.style.backgroundColor = "green";
     }
@@ -112,7 +113,7 @@ function előre() {
     //else {
     //    kérdésszám++;
     //}
-   
+
     kérdésszám += 1;
     //console.log(kérdésszám)
     kérdésBetöltés(kérdésszám);
@@ -121,14 +122,14 @@ function előre() {
     a3.style.backgroundColor = "cornflowerblue";
 }
 function vissza() {
-   // console.log(kérdések.length);
+    // console.log(kérdések.length);
     //if (0 == kérdésszám) {
     //    kérdésszám = 2;
     //}
     //else {
     //    kérdésszám--;
     //}
-  
+
     kérdésszám -= 1;
     //console.log(kérdésszám);
     kérdésBetöltés(kérdésszám);
