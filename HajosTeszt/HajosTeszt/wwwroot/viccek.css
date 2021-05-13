@@ -1,0 +1,17 @@
+﻿body {
+}
+form {
+    background-color : antiquewhite;
+    padding : 20px;
+    margin : 20px;
+
+}
+#container {
+    background-color : lightgreen;
+    padding: 20px;
+    margin: 20px;
+    height : 40px;
+}
+#viccSzöveg{
+    height : 20px;
+}

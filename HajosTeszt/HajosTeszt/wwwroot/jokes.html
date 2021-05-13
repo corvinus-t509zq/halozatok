@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    
+    <link href="viccek.css" rel="stylesheet" />
+    <title>Viccek</title>
+</head>
+<body>
+    <form>
+        <div id="jokeList"></div>
+        <div>
+
+            <input id="jokeText" type="text" placeholder="Csak PC vicc" />
+        </div>
+        <button id="addButton">Új vicc felvétele</button>
+    </form>
+    <div id="container">
+        <div id="viccSzöveg"></div>
+        <button id="Következő">Következő vicc</button>
+    </div>
+
+    <script>
+       
+        document.getElementById("addButton").addEventListener("click", () => {
+            let data = {
+                jokeText: document.getElementById("jokeText").value
+            }
+           
+            fetch("api/jokes",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data),
+                }
+            ).then(x => {
+                if (x.ok)
+                {
+                    alert("Siker");
+                    console.log("siker");
+                }
+                else {
+                    alert("Kudarc");
+                    console.log("kudarc");
+                }
+            });
+
+        });
+        var vicc;
+        //var ViccekLista = [];
+        var szam = 5;
+        window.onload = function indulás() {
+            fetch(`/api/jokes/${szam}`)
+                .then(r => r.json())
+                .then(data => LetöltésKész(data));
+        }
+        function LetöltésKész(d) {
+            vicc = d;
+            console.log(vicc);
+            document.getElementById("viccSzöveg").innerText = vicc.jokeText;
+        }
+        document.getElementById("Következő").addEventListener("click", () =>
+            KövBetöltés()
+        );
+        function KövBetöltés() {
+            szam++,
+                console.log("szám : " + szam),
+            fetch(`api/jokes/${szam}`).then(r => r.json()).then(data => LetöltésKész(data));
+        }
+        var Viccekdb = 1;
+        function ViccekSzáma() {
+            fetch('api/jokes/count').then(r => r.stringify).then(d => console.log(d));
+        }
+        function Darab(d) {
+            console.log("asddsa");
+            console.log(d);
+            Viccekdb = d;
+        }
+    </script>
+</body>
+</html>

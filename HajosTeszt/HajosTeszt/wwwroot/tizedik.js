@@ -86,23 +86,23 @@ function kérdésBetöltés(questionNumber, destination) {
 
 function KérdésMegjelenítés2() {
     let kérdés = hotList[displayedQuestion].question;
-    //console.log("kérdés : "+kérdés);
-    //console.log(kérdés.questionText);
+    
     aktuáliskérdés = kérdés;
     document.getElementById("kérdés_szöveg").innerText = kérdés.questionText;
     document.getElementById("válasz1").innerText = kérdés.answer1;
     document.getElementById("válasz2").innerText = kérdés.answer2;
     document.getElementById("válasz3").innerText = kérdés.answer3;
 
-    //console.log(kérdés.image.length);
-    document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
+    if (kérdés.image) {
+       //document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
+        document.getElementById("kép1").src = kérdés.image;
+        document.getElementById("kép1").style.display = "block";
+    } else {
+        document.getElementById("kép1").style.display = "none";
+    }
+    
 
-    //if (kérdés.image.length != 0) {
-    //    document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
-    //    console.log("Van kép");
-    //} else {
-    //    document.getElementById("kép1").style.visibility = "hidden";
-    //}
+ 
 
     a1 = document.getElementById("válasz1")
     a2 = document.getElementById("válasz2")
