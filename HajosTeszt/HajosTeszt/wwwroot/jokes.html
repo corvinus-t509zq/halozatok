@@ -69,15 +69,15 @@
                 console.log("szám : " + szam),
             fetch(`api/jokes/${szam}`).then(r => r.json()).then(data => LetöltésKész(data));
         }
-        var Viccekdb = 1;
-        function ViccekSzáma() {
-            fetch('api/jokes/count').then(r => r.stringify).then(d => console.log(d));
-        }
-        function Darab(d) {
-            console.log("asddsa");
-            console.log(d);
-            Viccekdb = d;
-        }
+        //var Viccekdb = 1;
+        //function ViccekSzáma() {
+        //    fetch('api/jokes/count').then(r => r.stringify).then(d => console.log(d));
+        //}
+        //function Darab(d) {
+        //    console.log("asddsa");
+        //    console.log(d);
+        //    Viccekdb = d;
+        //}
     </script>
 </body>
 </html>
