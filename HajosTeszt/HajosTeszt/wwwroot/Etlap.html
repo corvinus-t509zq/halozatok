@@ -8,10 +8,45 @@
 </head>
 <body>
     <div id="container">
-        <div id="header">Üdv a ... oldalon</div>
+        <div id="header">Üdv a beadandó oldalán</div>
         <div id="main">
             <div id="maintext">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+                A jobb oldali részben lehetőség van listázni az ételeket. Zárójelben a kulcs (sk) értékek jelennek meg.
+                Probáltam megoldani, hogy ne lehessen többször kilistázni ugyanazokat az ételeket egymás alá,
+                de ez nem lett teljesen tökéletes.
+                Közéen a kulcs értéket kell megadni, így lehet törölni az adott ételt. Mivel nem lehet többször listázni az ételeket, így a törlés
+                után érdemes ujratölteni az oldalt és utánna listázni, ilyenkor látni a lista csökkenését.
+                Étel felvételénél egy szöveget kell megadni, majd hozzáadni a listához. Ugyancsak az oldal ujratöltésével lehet ujra listázni
+                és látni a lista bővülését. Ez kicsit kellemetlen tudom, de szerintem még mindig jobb, mint ha 10szer megnyomnánk
+                a listázás gombot, és 10szer egymás alatt lenne a teljes lista.
+                Igyekeztem szépen megcsinálni az oldalt, még egy kics responsivitást is kapott.
+                Az api/etel/count routon elérhető egy másik api végpont is, ami a lista elemszámát adja vissza.
+                Továbbá írtam mág egy api végpontot, ami az api/etel/${szam} úton érhető el. (adott számú ételt listáz).
+                Ezt az api végpontot nem implementáltam az oldalba.
+                Van továbbá még egy Get (all), egy POST és egy DELETE api végpont is, ezeket használja a weboldal is.
+                Az adatbázis igen egyszerű, egy táblás, ami csak egy SK-t és egy szöveges mezőt tartalmaz.
+                A két nem használt api végpont:
+                <hr />
+                [HttpGet]<br />
+                [Route("api/etel/count")]<br />
+
+                public int M3() {<br />
+                etelekContext context = new etelekContext();<br />
+                int darab =  context.Etels.Count();<br />
+                return darab;<br />
+                }<br />
+                <hr />
+                [HttpGet]<br />
+                [Route("api/etel/{id}")]<br />
+                public Etel M2(int id)<br />
+                {<br />
+                etelekContext context = new etelekContext();<br />
+                var keresettetel = from i in context.Etels<br />
+                where i.Sk == id<br />
+                select i;<br />
+                return keresettetel.FirstOrDefault();<br />
+                }
+
 
             </div>
             <div id="Twoside">
@@ -20,9 +55,12 @@
                          Új étel felvétele
                          <input  id="ujetel" type="text"  />
                          <button id="addButton">Felvétel</button>
+                         
                           </div>
                      <div id="törlés">
                          Meglévő étel törlése
+                         <input id="törlendőszámú" type="text" placeholder="kulcs értéke "/>
+                         <button id="töröl">Törlés</button>
                            </div>
                  </div>
                  <div id="right">

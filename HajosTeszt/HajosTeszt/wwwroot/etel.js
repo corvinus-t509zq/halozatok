@@ -1,4 +1,7 @@
 ﻿var etel = [];
+var addclickcount = 0;
+var darab = 0;
+var listázásjó = new Boolean(false);
 function ButtonClick()
 {
 document.getElementById("button").addEventListener("click", () => {
@@ -10,24 +13,50 @@ window.onload = function start() {
    
     ButtonClick();
     AddNewEtel();
+    Törlés();
+  
 }
-function Megjelenítés(d)
-{
+
+function Megjelenítés(d) {
     etel = d;
     console.log(etel);
     let lista = document.getElementById("lista");
-  
+
+
+    if (darab == lista.childElementCount && darab == 0) {
+        console.log("most jó, megegyezik a kaják száma a megjelenített elemek számával");
+        listázásjó = true;
+        console.log(darab);
+    } else {
+        listázásjó = false;
+    }
+
+    if (listázásjó) { 
     for (var i = 0; i < etel.length; i++) {
         let a = document.createElement("div");
-        //a.setAttribute("id", "id");
-        //if (lista.contains(id)) console.log("asddsa");
         lista.appendChild(a);
-        a.innerText = etel[i].nev;
-        
+        a.innerText = etel[i].nev + " ("+ etel[i].sk +")";
+        if (count() < lista.childElementCount) {
+            console.log("baj van");
+            break;
+        }
     }
 }
+
+  
+
+}
+
+function count() {
+
+    fetch("api/etel/count").then(r => r.json()).then(d => darab = d);
+}
+
+
 function AddNewEtel() {
+   
     document.getElementById("addButton").addEventListener("click", () => {
+        
         let data = {
             Nev: document.getElementById("ujetel").value
         }
@@ -49,4 +78,19 @@ function AddNewEtel() {
             }
         });
     });
+    ButtonClick();
+}
+
+function Törlés() {
+
+    document.getElementById("töröl").addEventListener("click", () => {
+        let szam = document.getElementById("törlendőszámú").value;
+        fetch(`api/etel/${szam}`,
+            { method: 'DELETE' })
+            .then(r => r.json())
+            .then(d => console.log(d))
+
+
+    });
+    ButtonClick();
 }
